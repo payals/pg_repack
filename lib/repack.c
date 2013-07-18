@@ -760,6 +760,7 @@ repack_swap(PG_FUNCTION_ARGS)
 
 	/* swap relfilenode and dependencies for tables. */
 	values[0] = ObjectIdGetDatum(oid);
+        execute_with_args(SPI_OK_UPDATE, "UPDATE pg_attribute SET atttypid = 1043 where attrelid = $1 and atttypid = 1042", 1, argtypes, values, nulls);
 	execute_with_args(SPI_OK_SELECT,
 		"SELECT X.reltoastrelid, TX.reltoastidxid, X.relowner,"
 		"       Y.oid, Y.reltoastrelid, TY.reltoastidxid, Y.relowner"

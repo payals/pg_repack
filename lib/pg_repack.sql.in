@@ -123,6 +123,8 @@ $$
 SELECT array_to_string(repack.array_accum(c), ',') FROM (SELECT
 	CASE WHEN attisdropped
 		THEN 'NULL::integer AS ' || quote_ident(attname)
+        WHEN atttypid = 1042
+                THEN 'cast('||quote_ident(attname)||' as varchar(50))'
 		ELSE quote_ident(attname)
 	END AS c
 FROM pg_attribute
